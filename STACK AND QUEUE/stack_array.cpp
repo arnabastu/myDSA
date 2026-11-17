@@ -1,43 +1,56 @@
 #include <iostream>
 using namespace std;
-
-class Stack{
-    int arr[5];
+class StackArray{
+private:
+    static const int MAX = 5;
+    int arr[MAX];
     int top;
 public:
-    Stack(){
+    StackArray(){
         top = -1;
     }
-    void push(int val){
-        if (top == 4){
-            cout << "Stack Overflow\n";
+    bool isEmpty(){
+        return top == -1;
+    }
+    bool isFull(){
+        return top == MAX-1;
+    }
+    void push(int value){
+        if(isFull()){
+            cout<<"Statck is Full"<< endl;
             return;
         }
-        arr[++top] = val;
+        top ++;
+        arr[top] = value;
     }
-    void pop(){
-        if (top == -1){
-            cout<<"Stack is EMPTY\n";
-            return;
-        }
-        top --;
-    }
-    int peek(){
-        if (top == -1){
-            cout<< "Stack is empty\n";
+    int pop(){
+        if(isEmpty()){
+            cout<<"Stack is Empty"<< endl;
             return -1;
         }
-        return arr[top];
+        int value = arr[top];
+        top--;
+        return value;
     }
-    int size(){
-        return top +1;
+    void display(){
+        if(isEmpty()){
+            cout<< "Stack is Empty"<< endl;
+            return;
+        }
+        for(int i = top; i>=0 ; i--){
+            cout<<arr[i]<<" ";
+        }
+        cout<< endl;
     }
 };
 int main(){
-    Stack st;
-    st.push(10);
-    st.push(20);
-    st.push(30);
-    cout<< st.peek()<< endl;
+    StackArray s;
+    s.push(10);
+    s.push(20);
+    s.push(30);
+    s.push(40);
+    s.push(50);
+    s.pop();
+    s.display();
     return 0;
 }
