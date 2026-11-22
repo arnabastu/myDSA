@@ -1,61 +1,54 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 class Node{
 public:
     int data;
     Node* next;
-    Node(int val){
-        data = val;
+    Node(int value){
+        data = value;
         next = NULL;
     }
 };
-class Queue{
-    Node* head;
-    Node* tail;
+class LinkedQueue{
+private:
+    Node* front , *rear;
 public:
-    Queue(){
-        head = tail= NULL;
+    LinkedQueue(){
+        front = rear = NULL;
     }
-    void push(int data){
-        Node* newNode = new Node(data);
-        if (empty()){
-            head = tail = newNode;
-        }else{
-            tail->next = newNode;
-            tail= newNode;
+    ~LinkedQueue(){
+        Node*temp;
+        while(front!= NULL){
+            temp = front;
+            front = front->next;
+            delete temp;
         }
+        rear = NULL;
     }
-
-    void pop(){
-        if(empty()){
-            cout<<"Queue is empty";
-            return ;
+    bool isEmpty(){
+        front == NULL;
+    }
+    void enqueue(int value){
+        Node *newNode = new Node(value);
+        if(isEmpty()){
+            front = rear = newNode;
+            return;
         }
-        Node* temp= head;
-        head = head->next;
-        delete temp;
+        rear ->next = newNode;
+        rear = newNode;
     }
-    int front(){
-        if(empty()){
-            cout<<"Queue is empty";
+    int dequeue(){
+        if(isEmpty()){
+            cout<<"Queue is Empty"<<endl;
             return -1;
         }
-        return head->data;
-    }
-    bool empty(){
-        return head == NULL;
+        Node * temp = front;
+        int value = temp->data;
+        front = front->next;
+        if(front == NULL){
+            rear = NULL;
+        }
+        delete temp;
+        return value;
     }
 };
-int main(){
-    Queue q;
-    q.push(10);
-    q.push(20);
-    q.push(30);
-    while(!q.empty()){
-        cout<<q.front()<<" ";
-        q.pop();
-    }
-    cout<<endl;
-    return 0;
-}

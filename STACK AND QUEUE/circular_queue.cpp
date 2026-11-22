@@ -1,54 +1,43 @@
 #include <iostream>
 using namespace std;
 class CircularQueue{
-    int *arr;
-    int currsize , cap;
-    int f , r;
+private:
+    static const int MAX = 5;
+    int arr[MAX];
+    int front , rear;
 public:
-    CircularQueue(int size){
-        cap = size;
-        arr = new int[cap];
-        currsize =0;
-        f = 0;
-        r = -1;
+    CircularQueue(){
+        front = rear = -1;
     }
-    void push(int data){
-        if(currsize == cap){
-            cout<<"CQ is full";
-            return;
-        }
-        r = (r+1) % cap;
-        arr[r] = data;
-        currsize ++;
+    bool isEmpty(){
+        return front == -1;
     }
-    void pop(){
-        if (empty()){
-            cout<<"CQ is empty";
+    bool isFull(){
+        return (rear +1)% MAX == front;
+    }
+    void enqueue(int value){
+        if(isFull()){
+            cout<<"Queue is full"<<endl;
             return ;
         }
-        f =(f+1)% cap;
-        currsize--;
+        if(isEmpty()){
+            front = rear = 0;
+        }else{
+            rear = (rear + 1) % MAX;
+        }
+        arr[rear] = value;
     }
-    int front(){
-        if(empty()){
-            cout<<"CQ is Empty";
+    int dequeue(){
+        if(isEmpty()){
+            cout<<"Queue is Empty" << endl;
             return -1;
         }
-        return arr[f];
-    }
-    bool(empty()){
-        return currsize == 0;
+        int value = arr[front];
+        if(front == rear){
+            front = rear = -1;
+        }else{
+            front = (front +1) % MAX;
+        }
+        return value;
     }
 };
-int main(){
-    CircularQueue cp(3);
-    cp.push(1);
-    cp.push(2);
-    cp.push(3);
-    cp.pop();
-    while(!cp.empty()){
-        cout<<cp.front()<<" ";
-        cp.pop();
-    }
-
-}
