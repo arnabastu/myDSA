@@ -1,60 +1,50 @@
 #include <iostream>
-#include <vector>
 using namespace std;
-class Node{
+class Text{
+private:
+    char str[100];
 public:
-    int data;
-    Node* next;
-    Node(int val){
-        data = val;
-        next = NULL;
+    Text(){
+        str[0] = '\0';
+        cout<<"Text Object created." <<endl;
     }
-};
-
-class Queue{
-    Node* head , *tail;
-public:
-    Queue(){
-        head = tail = NULL;
+    void read(){
+        cout<<"Enter the line: ";
+        cin.getline(str , 100);
     }
-    void push(int data){
-        Node * newNode = new Node(data);
-        if(empty()){
-            head = tail = newNode;
-        }else{
-            tail->next = newNode;
-            tail = newNode;
+    void display(){
+        cout<<"You entered: "<<str<<endl;
+    }
+    int CountVowels(){
+        int count = 0;
+        for(int i = 0; str[i]!= '\0';++i){
+            char ch= str[i];
+            if(ch== 'a'|| ch== 'e'|| ch== 'i'|| ch== 'o'|| ch== 'u'|| ch== 'A'|| ch== 'E'|| ch== 'I'|| ch== 'O'|| ch== 'U' ){
+                count++;
+            }
         }
+        return count;
     }
-    void pop(){
-        if(empty()){
-            cout<< "LL is empty";
-            return;
+    void DisplayReverse(){
+        int length = 0;
+        while(str[length] != '\0'){
+            length++;
         }
-        Node* temp = head;
-        head = head->next;
-        delete temp;
-    }
-    int front(){
-        if(empty()){
-            cout<<"LL is empty";
-            return -1;
+        cout<<"Reverse:";
+        for(int i= length-1 ; i>=0 ; i--){
+            cout<<str[i];
         }
-        return head->data;
+        cout<<endl;
     }
-    bool empty(){
-        return head == NULL;
+    ~Text(){
+        cout<<"text object is destroyed."<<endl;
     }
 };
 int main(){
-    Queue q;
-    q.push(1);
-    q.push(2);
-    q.push(3);
-    q.pop();
-    while(!q.empty()){
-        cout<<q.front()<< " ";
-        q.pop();
-    }
+    Text t;
+    t.read();
+    t.display();
+    cout<<"Number of vowels = "<< t.CountVowels()<<endl;
+    t.DisplayReverse();
     return 0;
 }
